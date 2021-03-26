@@ -18,7 +18,7 @@ pub struct StatusUpdate<T> {
 }
 
 // the closure called to report progress, could for example print the report as JSON
-type UpdateClosure<T> = dyn 'static + Sync + Send + Fn(StatusUpdate<T>);
+type UpdateClosure<T> = dyn 'static + Sync + Send + FnMut(StatusUpdate<T>);
 
 /// The struct that keeps track of progress for a given progress update type T and contains a closure for reporting whenever progress is made.
 struct ProgressReporter<T> {
