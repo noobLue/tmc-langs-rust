@@ -72,7 +72,7 @@ pub fn start_stage<T: 'static + Send + Sync>(total_steps: usize, message: String
         reporter.stage_steps.push(total_steps);
 
         // check for subscriber
-        if let Some(progress_reporter) = reporter.reporters.get::<ProgressReporter<T>>() {
+        if let Some(progress_reporter) = reporter.reporters.get_mut::<ProgressReporter<T>>() {
             // report status
             let status_update = StatusUpdate {
                 finished: false,
@@ -81,7 +81,7 @@ pub fn start_stage<T: 'static + Send + Sync>(total_steps: usize, message: String
                 time: reporter.start_time.elapsed().as_millis(),
                 data,
             };
-            progress_reporter.progress_report.as_ref()(status_update);
+            (&mut *progress_reporter.progress_report)(status_update);
         }
     }
 }
@@ -117,7 +117,7 @@ pub fn progress_stage<T: 'static + Send + Sync>(message: String, data: Option<T>
                     time: reporter.start_time.elapsed().as_millis(),
                     data,
                 };
-                let _r = progress_reporter.progress_report.as_ref()(status_update);
+                let _r = (&mut *progress_reporter.progress_report)(status_update);
             }
         }
     }
@@ -143,7 +143,7 @@ pub fn finish_stage<T: 'static + Send + Sync>(message: String, data: Option<T>) 
             ); // guard against going over 1.0
 
             // check for subscriber
-            if let Some(progress_reporter) = reporter.reporters.get::<ProgressReporter<T>>() {
+            if let Some(progress_reporter) = reporter.reporters.get_mut::<ProgressReporter<T>>() {
                 let status_update = StatusUpdate {
                     finished: true,
                     message,
@@ -151,7 +151,7 @@ pub fn finish_stage<T: 'static + Send + Sync>(message: String, data: Option<T>) 
                     time: reporter.start_time.elapsed().as_millis(),
                     data,
                 };
-                let _r = progress_reporter.progress_report.as_ref()(status_update);
+                let _r = (&mut *progress_reporter.progress_report)(status_update);
             }
         }
     }

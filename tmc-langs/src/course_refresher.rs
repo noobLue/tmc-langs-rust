@@ -318,13 +318,10 @@ fn execute_zip(
             let relative_path = entry.path().strip_prefix(&root_path).unwrap(); // safe
 
             if entry.path().is_file() {
-<<<<<<< HEAD
-=======
                 let relative_path = entry
                     .path()
                     .strip_prefix(&root_path)
                     .expect("the entry is inside the root path");
->>>>>>> added clippy lints
                 writer.start_file(
                     relative_path.to_string_lossy(),
                     zip::write::FileOptions::default(),
