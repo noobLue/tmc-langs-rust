@@ -40,7 +40,7 @@ static PROGRESS_REPORTERS: OnceCell<RwLock<ProgressReporterContainer>> = OnceCel
 pub fn subscribe<T, F>(progress_report: F)
 where
     T: 'static + Send + Sync,
-    F: 'static + Sync + Send + Fn(StatusUpdate<T>),
+    F: 'static + Sync + Send + FnMut(StatusUpdate<T>),
 {
     let lock = PROGRESS_REPORTERS.get_or_init(|| {
         RwLock::new(ProgressReporterContainer {
