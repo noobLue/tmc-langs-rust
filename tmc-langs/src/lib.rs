@@ -393,9 +393,10 @@ pub fn download_or_update_course_exercises(
 
     progress_reporter::finish_stage::<ClientUpdateData>(
         format!(
-            "Successfully downloaded {} out of {} exercises.",
+            "Successfully downloaded {} out of {} exercises.\nFailed to download {}",
             successful.len(),
-            exercises_len
+            exercises_len,
+            failed.len()
         ),
         None,
     );
