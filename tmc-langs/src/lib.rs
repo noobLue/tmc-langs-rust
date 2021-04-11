@@ -435,7 +435,6 @@ pub fn download_or_update_course_exercises(
             DownloadTarget::Template { target, .. } => target,
         })
         .collect();
-
     // return an error if any downloads failed
     if !failed.is_empty() {
         // add an error trace to each failed download
