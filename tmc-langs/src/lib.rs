@@ -412,7 +412,7 @@ pub fn download_or_update_course_exercises(
         };
     }
 
-    let finish_message = if failed.is_empty(){
+    let finish_message = if failed.is_empty() {
         format!(
             "Successfully downloaded {} out of {} exercises.",
             successful.len(),
@@ -426,10 +426,7 @@ pub fn download_or_update_course_exercises(
         )
     };
 
-    progress_reporter::finish_stage::<ClientUpdateData>(
-        finish_message,
-        None,
-    );
+    progress_reporter::finish_stage::<ClientUpdateData>(finish_message, None);
 
     let downloaded = successful
         .into_iter()
@@ -438,8 +435,7 @@ pub fn download_or_update_course_exercises(
             DownloadTarget::Template { target, .. } => target,
         })
         .collect();
-    
-    
+
     // return an error if any downloads failed
     if !failed.is_empty() {
         // add an error trace to each failed download
