@@ -412,12 +412,22 @@ pub fn download_or_update_course_exercises(
         };
     }
 
-    progress_reporter::finish_stage::<ClientUpdateData>(
+    let finish_message = if failed.is_empty(){
         format!(
             "Successfully downloaded {} out of {} exercises.",
             successful.len(),
             exercises_len
-        ),
+        )
+    } else {
+        format!(
+            "Download finished, failed to download {} out of {} exercises",
+            failed.len(),
+            exercises_len
+        )
+    };
+
+    progress_reporter::finish_stage::<ClientUpdateData>(
+        finish_message,
         None,
     );
 
@@ -428,7 +438,8 @@ pub fn download_or_update_course_exercises(
             DownloadTarget::Template { target, .. } => target,
         })
         .collect();
-
+    
+    
     // return an error if any downloads failed
     if !failed.is_empty() {
         // add an error trace to each failed download
@@ -448,6 +459,7 @@ pub fn download_or_update_course_exercises(
                 (target, chain)
             })
             .collect();
+
         return Ok(DownloadResult::Failure {
             downloaded,
             skipped: to_be_skipped,
